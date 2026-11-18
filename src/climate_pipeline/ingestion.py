@@ -1,4 +1,3 @@
-
 import json
 from pathlib import Path
 
@@ -62,18 +61,13 @@ def fetch_historical_weather(
     data = response.json()
 
     if "daily" not in data:
-        raise ValueError(
-            "API response does not contain daily weather data."
-        )
+        raise ValueError("API response does not contain daily weather data.")
 
     # Create raw data directory if it does not exist
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     # Define output file path
-    file_path = (
-        RAW_DATA_DIR
-        / f"weather_{start_date}_{end_date}.json"
-    )
+    file_path = RAW_DATA_DIR / f"weather_{start_date}_{end_date}.json"
 
     # Save original API response as JSON
     with open(file_path, "w", encoding="utf-8") as file:

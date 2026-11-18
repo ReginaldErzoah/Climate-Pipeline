@@ -30,10 +30,9 @@ def validate_historical_weather(
 
     actual_dates = pd.DatetimeIndex(df["date"])
 
-    results["date_completeness"] = (
-        len(actual_dates) == len(expected_dates)
-        and actual_dates.sort_values().equals(expected_dates)
-    )
+    results["date_completeness"] = len(actual_dates) == len(
+        expected_dates
+    ) and actual_dates.sort_values().equals(expected_dates)
 
     # 4. Check temperature consistency
     results["temperature_consistency"] = (
@@ -41,16 +40,12 @@ def validate_historical_weather(
     ).all()
 
     # 5. Check precipitation validity
-    results["precipitation_validity"] = (
-        df["precipitation_sum"] >= 0
-    ).all()
+    results["precipitation_validity"] = (df["precipitation_sum"] >= 0).all()
 
     # 6. Check date field consistency
     expected_month_year = df["date"].dt.strftime("%Y-%m")
 
-    results["date_field_consistency"] = (
-        df["month_year"].equals(expected_month_year)
-    )
+    results["date_field_consistency"] = df["month_year"].equals(expected_month_year)
 
     return results
 
@@ -78,9 +73,7 @@ def enforce_validation(results: dict) -> None:
     print(f"Failed: {failed_checks}")
 
     if failed_checks > 0:
-        raise ValueError(
-            "Data validation failed. Pipeline execution stopped."
-        )
+        raise ValueError("Data validation failed. Pipeline execution stopped.")
 
     print("\nAll validation checks passed.")
     print("Data is approved for the next pipeline stage.")

@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -37,6 +36,7 @@ REQUIRED_COLUMNS = [
 # SUPABASE CONNECTION
 # --------------------------------------------------
 
+
 def get_supabase_client() -> Client:
     """
     Create and return a Supabase client.
@@ -48,10 +48,7 @@ def get_supabase_client() -> Client:
     supabase_key = os.getenv("SUPABASE_SECRET_KEY")
 
     if not supabase_url or not supabase_key:
-        raise ValueError(
-            "Missing Supabase credentials. "
-            "Check your project .env file."
-        )
+        raise ValueError("Missing Supabase credentials. Check your project .env file.")
 
     return create_client(supabase_url, supabase_key)
 
@@ -59,6 +56,7 @@ def get_supabase_client() -> Client:
 # --------------------------------------------------
 # DATA PREPARATION
 # --------------------------------------------------
+
 
 def prepare_records(df: pd.DataFrame) -> list[dict]:
     """
@@ -73,15 +71,11 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
 
     # Check required columns
     missing_columns = [
-        column
-        for column in REQUIRED_COLUMNS
-        if column not in df.columns
+        column for column in REQUIRED_COLUMNS if column not in df.columns
     ]
 
     if missing_columns:
-        raise ValueError(
-            f"Missing required columns: {missing_columns}"
-        )
+        raise ValueError(f"Missing required columns: {missing_columns}")
 
     # Select only database columns
     upload_df = df[REQUIRED_COLUMNS].copy()
@@ -93,22 +87,15 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
     )
 
     # Convert dates to PostgreSQL-compatible strings
-    upload_df["date"] = upload_df["date"].dt.strftime(
-        "%Y-%m-%d"
-    )
+    upload_df["date"] = upload_df["date"].dt.strftime("%Y-%m-%d")
 
     # Ensure no missing values exist
     if upload_df.isnull().any().any():
-        raise ValueError(
-            "Data contains missing values. "
-            "Resolve them before uploading."
-        )
+        raise ValueError("Data contains missing values. Resolve them before uploading.")
 
     # Prevent duplicate dates within the upload batch
     if upload_df["date"].duplicated().any():
-        raise ValueError(
-            "Duplicate dates detected in upload data."
-        )
+        raise ValueError("Duplicate dates detected in upload data.")
 
     # Convert DataFrame to list of dictionaries
     records = upload_df.to_dict(orient="records")
@@ -119,6 +106,7 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
 # --------------------------------------------------
 # DATABASE UPLOAD
 # --------------------------------------------------
+
 
 def upload_weather_data(df: pd.DataFrame) -> int:
     """
@@ -142,8 +130,7 @@ def upload_weather_data(df: pd.DataFrame) -> int:
     try:
         # Upload using upsert
         response = (
-            supabase
-            .table(TABLE_NAME)
+            supabase.table(TABLE_NAME)
             .upsert(
                 records,
                 on_conflict="date",
@@ -154,14 +141,9 @@ def upload_weather_data(df: pd.DataFrame) -> int:
         # Count returned records
         uploaded_count = len(response.data)
 
-        print(
-            f"Successfully uploaded "
-            f"{uploaded_count} weather records."
-        )
+        print(f"Successfully uploaded {uploaded_count} weather records.")
 
         return uploaded_count
 
     except Exception as error:
-        raise RuntimeError(
-            f"Failed to upload weather data: {error}"
-        ) from error
+        raise RuntimeError(f"Failed to upload weather data: {error}") from error

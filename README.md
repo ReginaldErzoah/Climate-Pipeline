@@ -217,7 +217,7 @@ The initial deployment is configured for daily execution at 6:00 AM Ghana time (
 The schedule is defined using:
 
 ```python
-cron="0 6 * * *"
+cron = "0 6 * * *"
 ```
 
 ### Starting the deployment

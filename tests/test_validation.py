@@ -13,9 +13,7 @@ def valid_weather_data():
 
     return pd.DataFrame(
         {
-            "date": pd.to_datetime(
-                ["2025-01-01", "2025-01-02", "2025-01-03"]
-            ),
+            "date": pd.to_datetime(["2025-01-01", "2025-01-02", "2025-01-03"]),
             "temperature_2m_min": [22.0, 23.0, 21.0],
             "temperature_2m_max": [30.0, 31.0, 29.0],
             "precipitation_sum": [0.0, 2.5, 1.0],

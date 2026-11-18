@@ -1,4 +1,3 @@
-
 import pandas as pd
 from prefect import flow, task
 
@@ -22,6 +21,7 @@ END_DATE = "2025-12-31"
 # ==================================================
 # PREFECT TASKS
 # ==================================================
+
 
 @task(
     name="Ingest Historical Weather",
@@ -88,11 +88,11 @@ def upload_task(df: pd.DataFrame) -> int:
 # PREFECT FLOW
 # ==================================================
 
+
 @flow(
     name="Historical Weather Data Pipeline",
     description=(
-        "Ingest, transform, validate and upload "
-        "historical weather data to Supabase."
+        "Ingest, transform, validate and upload historical weather data to Supabase."
     ),
     log_prints=True,
 )
@@ -149,7 +149,6 @@ def historical_weather_pipeline(
 # ==================================================
 
 if __name__ == "__main__":
-
     historical_weather_pipeline.serve(
         name="climate-pipeline-daily-update",
         cron="0 6 * * *",

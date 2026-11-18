@@ -1,4 +1,3 @@
-
 import json
 from pathlib import Path
 
@@ -28,15 +27,10 @@ def transform_historical_weather(
     """
 
     # Locate the raw JSON file
-    file_path = (
-        RAW_DATA_DIR
-        / f"weather_{start_date}_{end_date}.json"
-    )
+    file_path = RAW_DATA_DIR / f"weather_{start_date}_{end_date}.json"
 
     if not file_path.exists():
-        raise FileNotFoundError(
-            f"Raw data file not found: {file_path}"
-        )
+        raise FileNotFoundError(f"Raw data file not found: {file_path}")
 
     # Load the raw JSON data
     with open(file_path, "r", encoding="utf-8") as file:
@@ -44,9 +38,7 @@ def transform_historical_weather(
 
     # Extract daily observations
     if "daily" not in data:
-        raise ValueError(
-            "Raw data does not contain daily weather observations."
-        )
+        raise ValueError("Raw data does not contain daily weather observations.")
 
     df = pd.DataFrame(data["daily"])
 
