@@ -1,6 +1,7 @@
+
+import json
 from pathlib import Path
 
-import pandas as pd
 import requests
 
 
@@ -25,17 +26,17 @@ RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 def fetch_historical_weather(
     start_date: str,
     end_date: str,
-) -> pd.DataFrame:
+) -> dict:
     """
     Fetch historical daily weather data from Open-Meteo
-    and save the raw data as a CSV file.
+    and save the original API response as a JSON file.
 
     Args:
         start_date: Start date in YYYY-MM-DD format.
         end_date: End date in YYYY-MM-DD format.
 
     Returns:
-        A DataFrame containing daily weather observations.
+        The original API response as a Python dictionary.
     """
 
     params = {
@@ -65,22 +66,21 @@ def fetch_historical_weather(
             "API response does not contain daily weather data."
         )
 
-    # Convert daily data into a DataFrame
-    df = pd.DataFrame(data["daily"])
-
     # Create raw data directory if it does not exist
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     # Define output file path
     file_path = (
         RAW_DATA_DIR
-        / f"weather_{start_date}_{end_date}.csv"
+        / f"weather_{start_date}_{end_date}.json"
     )
 
-    # Save raw data
-    df.to_csv(file_path, index=False)
+    # Save original API response as JSON
+    with open(file_path, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
 
-    print(f"Successfully ingested {len(df)} records.")
+    print("Historical weather data successfully ingested.")
+    print(f"Raw records: {len(data['daily']['time'])}")
     print(f"Raw data saved to: {file_path}")
 
-    return df
+    return data

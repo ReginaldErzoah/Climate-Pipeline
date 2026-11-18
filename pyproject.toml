@@ -1,13 +1,15 @@
+[build-system]
+requires = ["uv_build>=0.9.0,<0.10.0"]
+build-backend = "uv_build"
+
 [project]
 name = "climate-pipeline"
 version = "0.1.0"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
-    "pandas>=3.1.1",
-    "requests>=2.34.2",
+    "requests",
+    "pandas",
 ]
 
-[dependency-groups]
-dev = [
-    "ipykernel>=7.4.0",
-]
+[tool.uv]
+package = true
