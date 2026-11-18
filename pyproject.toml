@@ -22,3 +22,10 @@ dev = [
     "pytest>=9.2.0",
     "ruff>=0.17.5",
 ]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
