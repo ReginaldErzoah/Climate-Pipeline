@@ -3,7 +3,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 # Project root directory
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -33,7 +32,7 @@ def transform_historical_weather(
         raise FileNotFoundError(f"Raw data file not found: {file_path}")
 
     # Load the raw JSON data
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, encoding="utf-8") as file:
         data = json.load(file)
 
     # Extract daily observations

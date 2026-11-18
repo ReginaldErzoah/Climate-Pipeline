@@ -5,7 +5,6 @@ import pandas as pd
 from dotenv import load_dotenv
 from supabase import Client, create_client
 
-
 # --------------------------------------------------
 # PROJECT CONFIGURATION
 # --------------------------------------------------

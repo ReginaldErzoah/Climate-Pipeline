@@ -3,7 +3,6 @@ from pathlib import Path
 
 import requests
 
-
 BASE_URL = "https://archive-api.open-meteo.com/v1/archive"
 
 LATITUDE = 5.6037

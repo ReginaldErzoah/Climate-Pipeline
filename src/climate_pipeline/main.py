@@ -1,14 +1,13 @@
 import pandas as pd
 from prefect import flow, task
 
+from climate_pipeline.db_upload import upload_weather_data
 from climate_pipeline.ingestion import fetch_historical_weather
 from climate_pipeline.transformation import transform_historical_weather
 from climate_pipeline.validation import (
-    validate_historical_weather,
     enforce_validation,
+    validate_historical_weather,
 )
-from climate_pipeline.db_upload import upload_weather_data
-
 
 # ==================================================
 # PIPELINE CONFIGURATION
