@@ -47,7 +47,7 @@ def test_invalid_weather_data_fails_validation(valid_weather_data):
         end_date="2025-01-03",
     )
 
-    assert results["temperature_consistency"] is False
+    assert not results["temperature_consistency"]
 
 
 def test_enforce_validation_raises_error():
