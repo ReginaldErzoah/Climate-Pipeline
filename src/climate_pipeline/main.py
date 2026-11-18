@@ -1,3 +1,5 @@
+
+import pandas as pd
 from prefect import flow, task
 
 from climate_pipeline.ingestion import fetch_historical_weather
@@ -9,21 +11,24 @@ from climate_pipeline.validation import (
 from climate_pipeline.db_upload import upload_weather_data
 
 
-# --------------------------------------------------
+# ==================================================
 # PIPELINE CONFIGURATION
-# --------------------------------------------------
+# ==================================================
 
 START_DATE = "2025-01-01"
 END_DATE = "2025-12-31"
 
 
-# --------------------------------------------------
+# ==================================================
 # PREFECT TASKS
-# --------------------------------------------------
+# ==================================================
 
-@task(name="Ingest Historical Weather")
+@task(
+    name="Ingest Historical Weather",
+    description="Retrieve historical weather data from Open-Meteo and save the raw response.",
+)
 def ingestion_task(start_date: str, end_date: str) -> dict:
-    """Retrieve historical weather data and save the raw response."""
+    """Retrieve and save raw historical weather data."""
 
     return fetch_historical_weather(
         start_date=start_date,
@@ -31,9 +36,15 @@ def ingestion_task(start_date: str, end_date: str) -> dict:
     )
 
 
-@task(name="Transform Historical Weather")
-def transformation_task(start_date: str, end_date: str):
-    """Transform raw weather JSON into a pandas DataFrame."""
+@task(
+    name="Transform Historical Weather",
+    description="Transform raw weather JSON into a structured DataFrame.",
+)
+def transformation_task(
+    start_date: str,
+    end_date: str,
+) -> pd.DataFrame:
+    """Transform raw weather data into a DataFrame."""
 
     return transform_historical_weather(
         start_date=start_date,
@@ -41,9 +52,16 @@ def transformation_task(start_date: str, end_date: str):
     )
 
 
-@task(name="Validate Historical Weather")
-def validation_task(df, start_date: str, end_date: str) -> dict:
-    """Validate weather data and enforce quality checks."""
+@task(
+    name="Validate Historical Weather",
+    description="Evaluate data quality and enforce validation rules.",
+)
+def validation_task(
+    df: pd.DataFrame,
+    start_date: str,
+    end_date: str,
+) -> dict:
+    """Validate transformed weather data."""
 
     results = validate_historical_weather(
         df=df,
@@ -56,34 +74,68 @@ def validation_task(df, start_date: str, end_date: str) -> dict:
     return results
 
 
-@task(name="Upload Weather Data")
-def upload_task(df) -> int:
-    """Upload validated weather records to Supabase."""
+@task(
+    name="Upload Weather Data",
+    description="Upload validated weather records to Supabase.",
+)
+def upload_task(df: pd.DataFrame) -> int:
+    """Upload validated weather data to Supabase."""
 
     return upload_weather_data(df)
 
 
-# --------------------------------------------------
+# ==================================================
 # PREFECT FLOW
-# --------------------------------------------------
+# ==================================================
 
-@flow(name="Historical Weather Data Pipeline")
+@flow(
+    name="Historical Weather Data Pipeline",
+    description=(
+        "Ingest, transform, validate and upload "
+        "historical weather data to Supabase."
+    ),
+    log_prints=True,
+)
 def historical_weather_pipeline(
     start_date: str = START_DATE,
     end_date: str = END_DATE,
 ) -> int:
-    """Orchestrate the complete historical weather pipeline."""
+    """
+    Orchestrate the complete historical weather pipeline.
+
+    Pipeline stages:
+        1. Ingestion
+        2. Transformation
+        3. Validation
+        4. Database upload
+    """
+
+    print("\nSTARTING HISTORICAL WEATHER PIPELINE")
 
     # Stage 1: Ingestion
-    ingestion_task(start_date, end_date)
+    ingestion_task(
+        start_date=start_date,
+        end_date=end_date,
+    )
 
     # Stage 2: Transformation
-    df = transformation_task(start_date, end_date)
+    df = transformation_task(
+        start_date=start_date,
+        end_date=end_date,
+    )
+
+    print(f"\nTransformed records: {len(df)}")
 
     # Stage 3: Validation
-    validation_task(df, start_date, end_date)
+    validation_results = validation_task(
+        df=df,
+        start_date=start_date,
+        end_date=end_date,
+    )
 
-    # Stage 4: Database Upload
+    print(f"Validation checks passed: {sum(validation_results.values())}")
+
+    # Stage 4: Database upload
     uploaded_records = upload_task(df)
 
     print("\nPIPELINE EXECUTION COMPLETED")
@@ -92,9 +144,22 @@ def historical_weather_pipeline(
     return uploaded_records
 
 
-# --------------------------------------------------
-# EXECUTION
-# --------------------------------------------------
+# ==================================================
+# PREFECT CLOUD DEPLOYMENT
+# ==================================================
 
 if __name__ == "__main__":
-    historical_weather_pipeline()
+
+    historical_weather_pipeline.serve(
+        name="climate-pipeline-daily-update",
+        cron="0 6 * * *",
+        tags=[
+            "climate-pipeline",
+            "weather",
+            "dataops",
+        ],
+        description=(
+            "Automated weather data ingestion, "
+            "transformation, validation and Supabase upload."
+        ),
+    )
