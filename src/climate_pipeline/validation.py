@@ -1,4 +1,3 @@
-
 import pandas as pd
 
 
@@ -54,3 +53,34 @@ def validate_historical_weather(
     )
 
     return results
+
+
+def enforce_validation(results: dict) -> None:
+    """
+    Generate a validation report and stop the pipeline
+    if any validation check fails.
+    """
+
+    print("\nDATA VALIDATION REPORT")
+    print("-" * 35)
+
+    for check, passed in results.items():
+        status = "PASS" if passed else "FAIL"
+        print(f"{check}: {status}")
+
+    total_checks = len(results)
+    passed_checks = sum(results.values())
+    failed_checks = total_checks - passed_checks
+
+    print("-" * 35)
+    print(f"Total checks: {total_checks}")
+    print(f"Passed: {passed_checks}")
+    print(f"Failed: {failed_checks}")
+
+    if failed_checks > 0:
+        raise ValueError(
+            "Data validation failed. Pipeline execution stopped."
+        )
+
+    print("\nAll validation checks passed.")
+    print("Data is approved for the next pipeline stage.")
