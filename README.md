@@ -22,62 +22,35 @@ The initial implementation focuses on historical weather data. Forecast API inte
 - Automate scheduled pipeline runs.
 - Establish a foundation for integrating weather forecasts.
 
+
 ## Architecture
 
-The pipeline follows a modular architecture in which each component is responsible for a specific data engineering operation.
+The diagram below illustrates the Climate-Pipeline architecture, including data ingestion, transformation, validation, storage, and Prefect orchestration.
 
-```text
-                 Weather API
-                      |
-                      v
-               +-------------+
-               |  Ingestion  |
-               +-------------+
-                      |
-                      v
-               +-------------+
-               |Transformation|
-               +-------------+
-                      |
-                      v
-               +-------------+
-               | Validation  |
-               +-------------+
-                      |
-                 Validation
-                   Passed?
-                      |
-                      v
-               +-------------+
-               |  Supabase   |
-               +-------------+
+```mermaid
+flowchart TD
+    A["Historical Weather API"] --> B["ingestion.py<br/>Fetch raw weather data"]
+    B --> C["transformation.py<br/>Transform JSON into DataFrame"]
+    C --> D["validation.py<br/>Run data quality checks"]
+    D --> E{"Validation passed?"}
+    E -->|Yes| F["db_upload.py<br/>Upload validated records"]
+    E -->|No| G["Stop Pipeline<br/>Raise Validation Error"]
+    F --> H[("Supabase Database")]
+
+    subgraph Orchestration["Prefect Orchestration"]
+        I["Prefect Cloud<br/>Scheduling & Monitoring"]
+        J["Local Prefect Serve Process<br/>Executes Pipeline"]
+        I --> J
+    end
+
+    J -.-> B
+
+    K["Forecast API<br/>(Future Integration)"] -.-> B
+
+    classDef future stroke-dasharray: 5 5,opacity:0.65
+    class K future
 ```
 
-Prefect orchestrates the execution of these stages.
-
-```text
-                 Prefect Cloud
-                      |
-                Deployment
-                      |
-                  Schedule
-                      |
-                      v
-              Local Prefect Runner
-                      |
-                      v
-             Historical Weather Flow
-                      |
-          +-----------+-----------+
-          |           |           |
-       Ingestion  Transformation Validation
-                                  |
-                                  v
-                              DB Upload
-                                  |
-                                  v
-                               Supabase
-```
 
 ## Pipeline Components
 
