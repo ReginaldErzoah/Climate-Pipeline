@@ -25,9 +25,8 @@ END_DATE = "2025-12-31"
 @task(
     name="Ingest Historical Weather",
     description=(
-    "Retrieve historical weather data from Open-Meteo "
-    "and save the raw response."
-),
+        "Retrieve historical weather data from Open-Meteo and save the raw response."
+    ),
 )
 def ingestion_task(start_date: str, end_date: str) -> dict:
     """Retrieve and save raw historical weather data."""
