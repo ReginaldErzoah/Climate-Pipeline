@@ -20,7 +20,6 @@ def transform_historical_weather(start_date: str, end_date: str) -> pd.DataFrame
         A transformed DataFrame containing daily weather data.
     """
 
-    # Locate the raw JSON file
     file_path = RAW_DATA_DIR / f"weather_{start_date}_{end_date}.json"
 
     if not file_path.exists():
