@@ -5,7 +5,6 @@ import pandas as pd
 from dotenv import load_dotenv
 from supabase import Client, create_client
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 load_dotenv(PROJECT_ROOT / ".env")
@@ -93,7 +92,9 @@ def upload_weather_data(df: pd.DataFrame) -> int:
     supabase = get_supabase_client()
 
     try:
-        response = (supabase.table(TABLE_NAME).upsert(records,on_conflict="date").execute())
+        response = (
+            supabase.table(TABLE_NAME).upsert(records, on_conflict="date").execute()
+        )
 
         uploaded_count = len(response.data)
 

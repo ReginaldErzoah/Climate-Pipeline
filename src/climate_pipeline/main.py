@@ -9,7 +9,6 @@ from climate_pipeline.validation import (
     validate_historical_weather,
 )
 
-
 START_DATE = "2025-01-01"
 END_DATE = "2025-12-31"
 
