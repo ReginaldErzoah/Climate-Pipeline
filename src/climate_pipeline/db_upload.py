@@ -90,7 +90,6 @@ def upload_weather_data(df: pd.DataFrame) -> int:
 
     records = prepare_records(df)
 
-    # Create Supabase client
     supabase = get_supabase_client()
 
     try:
