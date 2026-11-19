@@ -120,7 +120,6 @@ def historical_weather_pipeline(
 
     print(f"Validation checks passed: {sum(validation_results.values())}")
 
-    # Stage 4: Database upload
     uploaded_records = upload_task(df)
 
     print("\nPIPELINE EXECUTION COMPLETED")
