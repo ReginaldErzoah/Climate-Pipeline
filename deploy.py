@@ -1,6 +1,4 @@
-
 from prefect import flow
-
 
 if __name__ == "__main__":
     deployment = flow.from_source(

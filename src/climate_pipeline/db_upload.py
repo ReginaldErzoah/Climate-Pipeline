@@ -47,9 +47,7 @@ def get_supabase_client() -> Client:
             credentials = secret_value
 
         else:
-            raise TypeError(
-                "Unexpected data type returned by Prefect Secret block."
-            )
+            raise TypeError("Unexpected data type returned by Prefect Secret block.")
 
         supabase_url = supabase_url or credentials.get("SUPABASE_URL")
         supabase_key = supabase_key or credentials.get("SUPABASE_SECRET_KEY")
