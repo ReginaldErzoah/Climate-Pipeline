@@ -77,11 +77,6 @@ def upload_task(df: pd.DataFrame) -> int:
     return upload_weather_data(df)
 
 
-# ==================================================
-# PREFECT FLOW
-# ==================================================
-
-
 @flow(
     name="Historical Weather Data Pipeline",
     description=(
