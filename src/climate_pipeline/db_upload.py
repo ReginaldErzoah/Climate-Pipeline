@@ -70,7 +70,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
     if upload_df["date"].duplicated().any():
         raise ValueError("Duplicate dates detected in upload data.")
 
-    # Convert DataFrame to list of dictionaries
     records = upload_df.to_dict(orient="records")
 
     return records
