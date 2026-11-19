@@ -14,17 +14,12 @@ DAILY_VARIABLES = [
     "precipitation_sum",
 ]
 
-# Project root directory
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# Raw data directory
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
 
-def fetch_historical_weather(
-    start_date: str,
-    end_date: str,
-) -> dict:
+def fetch_historical_weather(start_date: str,end_date: str) -> dict:
     """
     Fetch historical daily weather data from Open-Meteo
     and save the original API response as a JSON file.
@@ -46,14 +41,13 @@ def fetch_historical_weather(
         "timezone": "Africa/Accra",
     }
 
-    # Send API request
+  
     response = requests.get(
         BASE_URL,
         params=params,
         timeout=30,
     )
 
-    # Raise an exception if the request fails
     response.raise_for_status()
 
     # Parse JSON response
