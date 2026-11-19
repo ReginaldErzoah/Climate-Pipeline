@@ -278,7 +278,6 @@ Establish a reliable historical and forecast weather dataset that can support do
 
 ## Author
 
-**Reginald Erzoah**
 
 ## License
 
