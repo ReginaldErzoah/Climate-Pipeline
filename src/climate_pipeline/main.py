@@ -128,10 +128,6 @@ def historical_weather_pipeline(
     return uploaded_records
 
 
-# ==================================================
-# PREFECT CLOUD DEPLOYMENT
-# ==================================================
-
 if __name__ == "__main__":
     historical_weather_pipeline.serve(
         name="climate-pipeline-daily-update",
