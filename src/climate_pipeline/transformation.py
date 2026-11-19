@@ -3,17 +3,12 @@ from pathlib import Path
 
 import pandas as pd
 
-# Project root directory
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# Raw data directory
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
 
-def transform_historical_weather(
-    start_date: str,
-    end_date: str,
-) -> pd.DataFrame:
+def transform_historical_weather(start_date: str, end_date: str) -> pd.DataFrame:
     """
     Load raw weather JSON and transform it into a DataFrame.
 
