@@ -25,7 +25,6 @@ def validate_historical_weather(
         expected_dates
     ) and actual_dates.sort_values().equals(expected_dates)
 
-    # 4. Check temperature consistency
     results["temperature_consistency"] = (
         df["temperature_2m_min"] <= df["temperature_2m_max"]
     ).all()
