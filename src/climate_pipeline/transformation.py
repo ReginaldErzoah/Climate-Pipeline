@@ -25,7 +25,6 @@ def transform_historical_weather(start_date: str, end_date: str) -> pd.DataFrame
     if not file_path.exists():
         raise FileNotFoundError(f"Raw data file not found: {file_path}")
 
-    # Load the raw JSON data
     with open(file_path, encoding="utf-8") as file:
         data = json.load(file)
 
