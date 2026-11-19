@@ -105,7 +105,6 @@ def historical_weather_pipeline(
         end_date=end_date,
     )
 
-    # Stage 2: Transformation
     df = transformation_task(
         start_date=start_date,
         end_date=end_date,
