@@ -64,7 +64,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
 
     upload_df["date"] = upload_df["date"].dt.strftime("%Y-%m-%d")
 
-    # Ensure no missing values exist
     if upload_df.isnull().any().any():
         raise ValueError("Data contains missing values. Resolve them before uploading.")
 
