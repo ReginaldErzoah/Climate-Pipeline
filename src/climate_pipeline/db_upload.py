@@ -88,7 +88,6 @@ def upload_weather_data(df: pd.DataFrame) -> int:
         Number of records returned by Supabase.
     """
 
-    # Prepare records
     records = prepare_records(df)
 
     # Create Supabase client
