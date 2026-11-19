@@ -37,11 +37,6 @@ def get_supabase_client() -> Client:
     return create_client(supabase_url, supabase_key)
 
 
-# --------------------------------------------------
-# DATA PREPARATION
-# --------------------------------------------------
-
-
 def prepare_records(df: pd.DataFrame) -> list[dict]:
     """
     Prepare a validated DataFrame for database upload.
