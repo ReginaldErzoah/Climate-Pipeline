@@ -17,8 +17,7 @@ def validate_historical_weather(
     results["duplicate_dates"] = df["date"].duplicated().sum() == 0
 
 
-    expected_dates = pd.date_range(
-        start=start_date, end=end_date,freq="D")
+    expected_dates = pd.date_range(start=start_date, end=end_date,freq="D")
 
     actual_dates = pd.DatetimeIndex(df["date"])
 
