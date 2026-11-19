@@ -75,11 +75,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
     return records
 
 
-# --------------------------------------------------
-# DATABASE UPLOAD
-# --------------------------------------------------
-
-
 def upload_weather_data(df: pd.DataFrame) -> int:
     """
     Upload validated weather records to Supabase.
