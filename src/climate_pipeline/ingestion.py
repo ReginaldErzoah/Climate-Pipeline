@@ -32,37 +32,23 @@ def fetch_historical_weather(start_date: str,end_date: str) -> dict:
         The original API response as a Python dictionary.
     """
 
-    params = {
-        "latitude": LATITUDE,
-        "longitude": LONGITUDE,
-        "start_date": start_date,
-        "end_date": end_date,
-        "daily": DAILY_VARIABLES,
-        "timezone": "Africa/Accra",
-    }
+    params = {"latitude": LATITUDE,"longitude": LONGITUDE,"start_date": start_date,"end_date": end_date, 
+              "daily": DAILY_VARIABLES, "timezone": "Africa/Accra"}
 
   
-    response = requests.get(
-        BASE_URL,
-        params=params,
-        timeout=30,
-    )
+    response = requests.get(BASE_URL,params=params,timeout=30)
 
     response.raise_for_status()
 
-    # Parse JSON response
     data = response.json()
 
     if "daily" not in data:
         raise ValueError("API response does not contain daily weather data.")
 
-    # Create raw data directory if it does not exist
     RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Define output file path
     file_path = RAW_DATA_DIR / f"weather_{start_date}_{end_date}.json"
 
-    # Save original API response as JSON
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4)
 
