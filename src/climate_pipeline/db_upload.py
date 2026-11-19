@@ -21,11 +21,6 @@ REQUIRED_COLUMNS = [
 ]
 
 
-# --------------------------------------------------
-# SUPABASE CONNECTION
-# --------------------------------------------------
-
-
 def get_supabase_client() -> Client:
     """
     Create and return a Supabase client.
