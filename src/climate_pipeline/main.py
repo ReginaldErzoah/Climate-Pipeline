@@ -14,11 +14,6 @@ START_DATE = "2025-01-01"
 END_DATE = "2025-12-31"
 
 
-# ==================================================
-# PREFECT TASKS
-# ==================================================
-
-
 @task(
     name="Ingest Historical Weather",
     description=(
