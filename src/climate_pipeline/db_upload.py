@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from supabase import Client, create_client
 
 
-# Resolve project root directory
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # Load environment variables from project root
