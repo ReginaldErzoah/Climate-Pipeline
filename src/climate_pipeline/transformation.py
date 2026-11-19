@@ -35,7 +35,6 @@ def transform_historical_weather(start_date: str, end_date: str) -> pd.DataFrame
 
     df["date"] = pd.to_datetime(df["time"])
 
-    # Create month-year column
     df["month_year"] = df["date"].dt.strftime("%Y-%m")
 
     print(f"Successfully transformed {len(df)} records.")
