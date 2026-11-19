@@ -11,11 +11,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # Load environment variables from project root
 load_dotenv(PROJECT_ROOT / ".env")
 
-
-# --------------------------------------------------
-# DATABASE CONFIGURATION
-# --------------------------------------------------
-
 TABLE_NAME = "daily_weather"
 
 REQUIRED_COLUMNS = [
