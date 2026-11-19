@@ -29,7 +29,6 @@ def validate_historical_weather(
         df["temperature_2m_min"] <= df["temperature_2m_max"]
     ).all()
 
-    # 5. Check precipitation validity
     results["precipitation_validity"] = (df["precipitation_sum"] >= 0).all()
 
     # 6. Check date field consistency
