@@ -1,3 +1,4 @@
+
 import pandas as pd
 from prefect import flow, task
 
@@ -125,19 +126,3 @@ def historical_weather_pipeline(
     print(f"Records uploaded: {uploaded_records}")
 
     return uploaded_records
-
-
-if __name__ == "__main__":
-    historical_weather_pipeline.serve(
-        name="climate-pipeline-daily-update",
-        cron="0 6 * * *",
-        tags=[
-            "climate-pipeline",
-            "weather",
-            "dataops",
-        ],
-        description=(
-            "Automated weather data ingestion, "
-            "transformation, validation and Supabase upload."
-        ),
-    )
