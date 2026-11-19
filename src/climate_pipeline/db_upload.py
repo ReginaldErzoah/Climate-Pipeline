@@ -57,7 +57,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
 
     upload_df = df[REQUIRED_COLUMNS].copy()
 
-    # Ensure date is in datetime format
     upload_df["date"] = pd.to_datetime(
         upload_df["date"],
         errors="raise",
