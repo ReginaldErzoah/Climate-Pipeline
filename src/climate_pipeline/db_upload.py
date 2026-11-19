@@ -48,7 +48,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
     if df.empty:
         raise ValueError("Cannot upload an empty DataFrame.")
 
-    # Check required columns
     missing_columns = [
         column for column in REQUIRED_COLUMNS if column not in df.columns
     ]
