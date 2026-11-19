@@ -93,10 +93,7 @@ def upload_weather_data(df: pd.DataFrame) -> int:
     supabase = get_supabase_client()
 
     try:
-        # Upload using upsert
-        response = (
-            supabase.table(TABLE_NAME)
-            .upsert(
+        response = (supabase.table(TABLE_NAME).upsert(
                 records,
                 on_conflict="date",
             )
