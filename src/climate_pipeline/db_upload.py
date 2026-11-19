@@ -38,7 +38,18 @@ def get_supabase_client() -> Client:
         from prefect.blocks.system import Secret
 
         secret_block = Secret.load(PREFECT_SECRET_BLOCK)
-        credentials = json.loads(secret_block.get())
+        secret_value = secret_block.get()
+
+        if isinstance(secret_value, str):
+            credentials = json.loads(secret_value)
+
+        elif isinstance(secret_value, dict):
+            credentials = secret_value
+
+        else:
+            raise TypeError(
+                "Unexpected data type returned by Prefect Secret block."
+            )
 
         supabase_url = supabase_url or credentials.get("SUPABASE_URL")
         supabase_key = supabase_key or credentials.get("SUPABASE_SECRET_KEY")
