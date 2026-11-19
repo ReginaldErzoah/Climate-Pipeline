@@ -280,7 +280,7 @@ Establish a reliable historical and forecast weather dataset that can support do
 
 **Reginald Erzoah**
 
-- GitHub: [ReginaldErzoah](https://github
+- GitHub: [ReginaldErzoah]
 
 ## License
 
