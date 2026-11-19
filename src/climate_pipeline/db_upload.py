@@ -67,7 +67,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
     if upload_df.isnull().any().any():
         raise ValueError("Data contains missing values. Resolve them before uploading.")
 
-    # Prevent duplicate dates within the upload batch
     if upload_df["date"].duplicated().any():
         raise ValueError("Duplicate dates detected in upload data.")
 
