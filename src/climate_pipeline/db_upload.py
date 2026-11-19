@@ -5,9 +5,6 @@ import pandas as pd
 from dotenv import load_dotenv
 from supabase import Client, create_client
 
-# --------------------------------------------------
-# PROJECT CONFIGURATION
-# --------------------------------------------------
 
 # Resolve project root directory
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
