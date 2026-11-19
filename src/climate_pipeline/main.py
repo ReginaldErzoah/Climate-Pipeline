@@ -112,7 +112,6 @@ def historical_weather_pipeline(
 
     print(f"\nTransformed records: {len(df)}")
 
-    # Stage 3: Validation
     validation_results = validation_task(
         df=df,
         start_date=start_date,
