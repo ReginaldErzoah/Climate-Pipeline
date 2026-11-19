@@ -28,7 +28,6 @@ def transform_historical_weather(start_date: str, end_date: str) -> pd.DataFrame
     with open(file_path, encoding="utf-8") as file:
         data = json.load(file)
 
-    # Extract daily observations
     if "daily" not in data:
         raise ValueError("Raw data does not contain daily weather observations.")
 
