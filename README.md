@@ -281,7 +281,7 @@ Establish a reliable historical and forecast weather dataset that can support do
 **Reginald Erzoah**
 
 - GitHub: [ReginaldErzoah](https://github.com/ReginaldErzoah)
-- Portfolio: [reginalderzoah.github.io]
+- Portfolio: 
 
 ## License
 
