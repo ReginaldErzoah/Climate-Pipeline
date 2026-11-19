@@ -100,7 +100,6 @@ def historical_weather_pipeline(
 
     print("\nSTARTING HISTORICAL WEATHER PIPELINE")
 
-    # Stage 1: Ingestion
     ingestion_task(
         start_date=start_date,
         end_date=end_date,
