@@ -55,7 +55,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
     if missing_columns:
         raise ValueError(f"Missing required columns: {missing_columns}")
 
-    # Select only database columns
     upload_df = df[REQUIRED_COLUMNS].copy()
 
     # Ensure date is in datetime format
