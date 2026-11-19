@@ -62,7 +62,6 @@ def prepare_records(df: pd.DataFrame) -> list[dict]:
         errors="raise",
     )
 
-    # Convert dates to PostgreSQL-compatible strings
     upload_df["date"] = upload_df["date"].dt.strftime("%Y-%m-%d")
 
     # Ensure no missing values exist
