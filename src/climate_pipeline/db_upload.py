@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 
@@ -10,6 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 load_dotenv(PROJECT_ROOT / ".env")
 
 TABLE_NAME = "daily_weather"
+PREFECT_SECRET_BLOCK = "supabase-credentials"
 
 REQUIRED_COLUMNS = [
     "date",
@@ -24,14 +26,28 @@ def get_supabase_client() -> Client:
     """
     Create and return a Supabase client.
 
-    Credentials are retrieved from environment variables.
+    Credentials are retrieved from local environment variables
+    or from a Prefect Secret block during managed execution.
     """
 
     supabase_url = os.getenv("SUPABASE_URL")
     supabase_key = os.getenv("SUPABASE_SECRET_KEY")
 
+    # Retrieve credentials from Prefect if environment variables are unavailable.
     if not supabase_url or not supabase_key:
-        raise ValueError("Missing Supabase credentials. Check your project .env file.")
+        from prefect.blocks.system import Secret
+
+        secret_block = Secret.load(PREFECT_SECRET_BLOCK)
+        credentials = json.loads(secret_block.get())
+
+        supabase_url = supabase_url or credentials.get("SUPABASE_URL")
+        supabase_key = supabase_key or credentials.get("SUPABASE_SECRET_KEY")
+
+    if not supabase_url or not supabase_key:
+        raise ValueError(
+            "Missing Supabase credentials. Check your .env file "
+            "or Prefect Secret block."
+        )
 
     return create_client(supabase_url, supabase_key)
 
