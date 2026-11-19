@@ -31,7 +31,6 @@ def validate_historical_weather(
 
     results["precipitation_validity"] = (df["precipitation_sum"] >= 0).all()
 
-    # 6. Check date field consistency
     expected_month_year = df["date"].dt.strftime("%Y-%m")
 
     results["date_field_consistency"] = df["month_year"].equals(expected_month_year)
