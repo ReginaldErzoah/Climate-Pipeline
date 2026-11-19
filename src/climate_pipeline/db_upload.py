@@ -95,7 +95,6 @@ def upload_weather_data(df: pd.DataFrame) -> int:
     try:
         response = (supabase.table(TABLE_NAME).upsert(records,on_conflict="date").execute())
 
-        # Count returned records
         uploaded_count = len(response.data)
 
         print(f"Successfully uploaded {uploaded_count} weather records.")
