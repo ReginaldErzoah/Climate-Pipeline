@@ -276,4 +276,3 @@ Explore cloud-based execution infrastructure so that scheduled pipelines can run
 ### 6. Analytics and Environmental Intelligence
 Establish a reliable historical and forecast weather dataset that can support downstream analytics and environmental intelligence applications.
 
-##
