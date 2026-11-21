@@ -274,4 +274,4 @@ Introduce task retries, improved failure handling, and more comprehensive execut
 Explore cloud-based execution infrastructure so that scheduled pipelines can run independently of a local desktop environment.
 
 ### 6. Analytics and Environmental Intelligence
-Establish a reliable historical and forecast weather dataset that can supprt downstream analytics
+Establish a reliable historical and forecast weather dataset that can supprt downstream analytics and environmental
